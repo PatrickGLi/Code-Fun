@@ -72,3 +72,21 @@ def quick_sort (arr, &prc)
 end
 
 # p quick_sort ([1,5,7,3,5,9]) { |x, y| y <=> x }
+
+[1, 2, 4, 8, 2, -1]
+def get_max_profit (stock_prices)
+  first_num = stock_prices.shift
+  current_max = stock_prices.first - first_num
+  i = 0
+  while i < stock_prices.count - 1
+    last_difference = stock_prices[i + 1] - stock_prices[i]
+    if last_difference > current_max + last_difference
+      current_max = last_difference
+    else
+      current_max += last_difference
+    end
+    i += 1
+  end
+
+  current_max
+end
