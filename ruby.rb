@@ -48,3 +48,27 @@ def merge (left, right, &prc)
 end
 
 # p merge_sort([5,3,7,1,2]) { |x, y| y <=> x }
+
+def quick_sort (arr, &prc)
+  return arr if arr.count <= 1
+
+  prc ||= Proc.new { |x, y| x <=> y }
+
+  pivot = arr.shift
+
+  left = []
+  right = []
+
+  arr.each do |num|
+    case prc.call(pivot, num)
+    when -1, 0
+      right << num
+    when 1
+      left << num
+    end
+  end
+
+  quick_sort(left, &prc) + [pivot] + quick_sort(right, &prc)
+end
+
+# p quick_sort ([1,5,7,3,5,9]) { |x, y| y <=> x }
