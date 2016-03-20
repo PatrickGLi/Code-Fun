@@ -90,3 +90,30 @@ def get_max_profit (stock_prices)
 
   current_max
 end
+
+def get_products_of_all_ints_except_at_index (arr)
+  left_prod = 1
+  left_arr = []
+
+  i = 0
+  while i < arr.length
+    left_arr << left_prod
+    left_prod *= arr[i]
+
+    i += 1
+  end
+
+  right_prod = 1
+  j = arr.length - 1
+
+  while j >= 0
+    left_arr[j] *= right_prod
+    right_prod *= arr[j]
+
+    j -= 1
+  end
+
+  left_arr
+end
+
+p get_products_of_all_ints_except_at_index([1, 4, 6, 4])
