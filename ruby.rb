@@ -116,4 +116,46 @@ def get_products_of_all_ints_except_at_index (arr)
   left_arr
 end
 
-p get_products_of_all_ints_except_at_index([1, 4, 6, 4])
+# p get_products_of_all_ints_except_at_index([1, 4, 6, 4])
+
+def highest_product_of_three(arr)
+  max = -1.0/0.0
+
+  queue = []
+  arr.each do |num|
+    queue << num
+
+    queue.shift if queue.count > 3
+
+    if queue.count == 3
+      current_sum = queue.inject(&:*)
+      max = current_sum > max ? current_sum : max
+    end
+  end
+
+  max
+end
+
+# p highest_product_of_three([1,2,4,6,1,5])
+
+def condense_meeting_times(arr)
+  arr.sort! { |x, y| x[0] <=> y[0] }
+  result = []
+
+  arr.each do |range|
+    if result.empty?
+      result << range
+      break
+    end
+
+    if range.first < result.last.last
+      result.last.last = range.last
+    else
+      result << range
+    end
+  end
+
+  result
+end
+
+p condense_meeting_times([ [0, 1], [3, 5], [4, 8], [10, 12], [9, 10] ])
