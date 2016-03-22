@@ -213,3 +213,25 @@ end
 def is_balanced?(node)
   balance_binary_tree(node) ? true : false
 end
+
+def is_bst?(node)
+  queue = [[node, nil, nil]]
+
+  until queue.empty?
+    value = queue.shift
+
+    if value[1] && value[2]
+      return false unless value[0].between?(value[1], value[2])
+    end
+
+    if value[0].left
+      queue << [value.left, value[1], value]
+    end
+
+    if value[0].right
+      queue << [value.right, value, value[2]]
+    end
+  end
+
+  true
+end
