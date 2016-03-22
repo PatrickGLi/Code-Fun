@@ -145,11 +145,11 @@ def condense_meeting_times(arr)
   arr.each do |range|
     if result.empty?
       result << range
-      break
+      next
     end
 
-    if range.first < result.last.last
-      result.last.last = range.last
+    if range.first <= result.last.last
+      result.last[-1] = range.last
     else
       result << range
     end
@@ -158,4 +158,21 @@ def condense_meeting_times(arr)
   result
 end
 
-p condense_meeting_times([ [0, 1], [3, 5], [4, 8], [10, 12], [9, 10] ])
+# p condense_meeting_times([ [0, 1], [3, 5], [4, 8], [10, 12], [9, 10] ])
+
+def make_change_num_ways(amount, denom)
+  denom.sort!.reverse!
+  return 1 if amount == 0
+
+  num_ways = 0
+  denom.each_with_index do |coin, idx|
+    next if amount < coin
+
+    new_amount = amount - coin
+    num_ways += make_change_num_ways(new_amount, denom[idx..-1])
+  end
+
+  num_ways
+end
+
+# p make_change_num_ways(4, [1,2,3])
