@@ -176,3 +176,24 @@ def make_change_num_ways(amount, denom)
 end
 
 # p make_change_num_ways(4, [1,2,3])
+
+def rectangular_intersection(rect1, rect2)
+  x_range = find_range([rect1[0][0], rect1[1][0]], [rect2[0][0], rect2[1][0]])
+  y_range = find_range([rect1[0][1], rect1[1][1]], [rect2[0][1], rect2[1][1]])
+
+  [[x_range[0], y_range[0]], [x_range[1], y_range[1]]]
+end
+
+def find_range(rect1, rect2)
+  greatest_starting_point = [rect1.first, rect2.first].max
+  lowest_end_point = [rect1.last, rect2.last].min
+
+  return [nil, nil] if greatest_starting_point >= lowest_end_point
+
+  [greatest_starting_point, lowest_end_point]
+end
+
+rect1 = [[0, 0], [4, 4]]
+rect2 = [[1, 1], [5, 5]]
+
+p rectangular_intersection(rect1, rect2)
