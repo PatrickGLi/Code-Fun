@@ -196,4 +196,20 @@ end
 rect1 = [[0, 0], [4, 4]]
 rect2 = [[1, 1], [5, 5]]
 
-p rectangular_intersection(rect1, rect2)
+# p rectangular_intersection(rect1, rect2)
+
+def balance_binary_tree(node, depth)
+  return depth if node.nil?
+
+  max_left = balance_binary_tree(node.left, depth + 1)
+  max_right = balance_binary_tree(node.right, depth + 1)
+
+  return false if !max_left || !max_right
+  return false if Math.abs(max_left - max_right) > 1
+
+  depth
+end
+
+def is_balanced?(node)
+  balance_binary_tree(node) ? true : false
+end
