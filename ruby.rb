@@ -379,4 +379,7 @@ class MinMaxStackQueue
   end
 end
 
-#lru cache
+#lru cache linkedlist with corresponding hashmap for fast access
+#resizinghashmap array that doubles in size whenever the number of elements exceeds the array
+#redistributes to new buckets based on some hashing factor modded by 20
+#inside each bucket is linkedlist for easy access.
