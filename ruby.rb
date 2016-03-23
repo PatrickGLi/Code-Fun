@@ -235,3 +235,23 @@ def is_bst?(node)
 
   true
 end
+
+def second_largest_bst(node)
+  if node.right
+    node = node.right
+    while node.left
+      node = node.left
+    end
+
+    node
+  else
+    current_node = node
+    node = node.parent
+    until node > current_node
+      node = node.parent
+      return if node.parent.nil?
+    end
+
+    node
+  end
+end
