@@ -273,21 +273,21 @@ def find_rotation_point(words)
   end
 end
 
-p find_rotation_point([
-    'ptolemaic',
-    'retrograde',
-    'supplant',
-    'undulate',
-    'xenoepist',
-    'asymptote',
-    'ape',
-    'babka',
-    'banoffee',
-    'engender',
-    'karpatka',
-    'krap',
-    'othellolagkage',
-])
+# p find_rotation_point([
+#     'ptolemaic',
+#     'retrograde',
+#     'supplant',
+#     'undulate',
+#     'xenoepist',
+#     'asymptote',
+#     'ape',
+#     'babka',
+#     'banoffee',
+#     'engender',
+#     'karpatka',
+#     'krap',
+#     'othellolagkage',
+# ])
 
 def perfect_movies(flight_length, movie_lengths)
   pairs = Set.new
@@ -302,3 +302,24 @@ def perfect_movies(flight_length, movie_lengths)
 
   pairs
 end
+
+def max_duffel_bag(capacity, cake_arrays)
+  maxes = Array.new(capacity + 1) { 0 }
+
+  maxes.each_index do |idx|
+    current_max = 0
+    cake_arrays.each do |cake_capacity, cake_value|
+      next if cake_capacity > idx
+
+      temp_max = cake_value + maxes[idx - cake_capacity]
+
+      current_max = temp_max > current_max ? temp_max : current_max
+    end
+
+    maxes[idx] = current_max
+  end
+
+  maxes.last
+end
+
+p max_duffel_bag(20, [ [7, 160], [3, 90], [2, 15] ])
