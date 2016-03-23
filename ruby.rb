@@ -425,3 +425,16 @@ class ResizingHash
   end
 
 end
+
+def reverse_linked_list(head)
+  first_node = head
+  second_node = first_node.next
+  while second_node
+    third_node = second_node.next
+    second_node.next = first_node
+    first_node = second_node
+    second_node = third_node
+  end
+
+  first_node
+end
