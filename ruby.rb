@@ -1,4 +1,5 @@
 require 'byebug'
+require 'set'
 
 def bsearch (arr, target)
   return nil if arr.empty?
@@ -287,3 +288,17 @@ p find_rotation_point([
     'krap',
     'othellolagkage',
 ])
+
+def perfect_movies(flight_length, movie_lengths)
+  pairs = Set.new
+  seen = Set.new
+
+  movie_lengths.each do |movie|
+    seen.add(movie)
+    if seen.include?(flight_length - movie) && flight_length / 2.0 != movie
+      pairs.add([movie, flight_length - movie])
+    end
+  end
+
+  pairs
+end
