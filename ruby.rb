@@ -383,3 +383,45 @@ end
 #resizinghashmap array that doubles in size whenever the number of elements exceeds the array
 #redistributes to new buckets based on some hashing factor modded by 20
 #inside each bucket is linkedlist for easy access.
+
+class ResizingHash
+  def initialize
+    @buckets = Array.new(10) { LinkedList.new }
+    @count = 0
+  end
+
+  def size
+    @buckets.count
+  end
+
+  def add(el)
+    if @count == size
+      resize!
+    end
+
+    @buckets[form(el)].add(el)
+    @count ++
+  end
+
+  private
+
+  def resize!
+    move = []
+    @buckets.each do |ll|
+      until ll.next.nil?
+        move << ll.value
+      end
+    end
+
+    @buckets = Array.new(size * 2) { LinkedList.new }
+
+    move.each do |el|
+      @buckets[form(el)].add(el)
+    end
+  end
+
+  def form(el)
+    el.hash % size
+  end
+
+end
