@@ -255,3 +255,35 @@ def second_largest_bst(node)
     node
   end
 end
+
+def find_rotation_point(words)
+  return 0 if words.count <= 1
+  return 1 if words.count == 2
+  median = words.length / 2
+  # debugger
+
+  case words[median] <=> words[0]
+  when -1
+    find_rotation_point(words[0..median])
+  when 0
+    return median
+  when 1
+    median + find_rotation_point(words[median.. -1])
+  end
+end
+
+p find_rotation_point([
+    'ptolemaic',
+    'retrograde',
+    'supplant',
+    'undulate',
+    'xenoepist',
+    'asymptote',
+    'ape',
+    'babka',
+    'banoffee',
+    'engender',
+    'karpatka',
+    'krap',
+    'othellolagkage',
+])
