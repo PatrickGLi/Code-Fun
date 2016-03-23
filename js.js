@@ -6,7 +6,7 @@
 // logIt();
 
 // this will output undefined due to variable hoisting
-// variable declaration vs variable
+// variable declaration vs variable initialization
 
 var prizes = ['A Unicorn!', 'A Hug!', 'Fresh Laundry!'];
 

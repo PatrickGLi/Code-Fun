@@ -323,3 +323,60 @@ def max_duffel_bag(capacity, cake_arrays)
 end
 
 p max_duffel_bag(20, [ [7, 160], [3, 90], [2, 15] ])
+
+class MinMaxStack
+  def initialize
+    @stack = []
+    @max = nil
+    @min = nil
+  end
+
+  def push(el)
+    result = []
+
+    @max = el if @max.nil?
+    @min = el if @min.nil?
+    @max = el if el > @max
+    @min = el if el < @min
+    @stack << [el, @max, @min]
+  end
+
+  def empty?
+    @stack.empty?
+  end
+
+  def pop
+    @stack.pop
+  end
+
+  def max
+    @stack.last[1]
+  end
+
+  def min
+    @stack.last[2]
+  end
+end
+
+class MinMaxStackQueue
+  def initialize
+    @enqueue = MinMaxStack.new
+    @dequeue = MinMaxStack.new
+  end
+
+  def enqueue(el)
+    @enqueue.push(el)
+  end
+
+  def dequeue
+    if @dequeue.empty?
+      until @enqueue.empty?
+        @dequeue.push(@enqueue.pop)
+      end
+    end
+
+    dequeue.pop
+  end
+end
+
+#lru cache
