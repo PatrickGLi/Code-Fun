@@ -322,7 +322,7 @@ def max_duffel_bag(capacity, cake_arrays)
   maxes.last
 end
 
-p max_duffel_bag(20, [ [7, 160], [3, 90], [2, 15] ])
+# p max_duffel_bag(20, [ [7, 160], [3, 90], [2, 15] ])
 
 class MinMaxStack
   def initialize
@@ -400,7 +400,7 @@ class ResizingHash
     end
 
     @buckets[form(el)].add(el)
-    @count ++
+    @count += 1
   end
 
   private
@@ -438,3 +438,120 @@ def reverse_linked_list(head)
 
   first_node
 end
+
+def reverse_a_string(string)
+  median = string.length / 2
+
+  median.times do |idx|
+    string[idx], string[string.length - idx - 1] = string[string.length - idx - 1], string[idx]
+  end
+
+  string
+end
+
+# p reverse_a_string("helzlo")
+
+def sequence_search(string1, string2)
+  pointer1 = 0
+  pointer2 = 0
+
+  until pointer1 >= string1.length
+    if string1[pointer1] == string2[pointer2]
+      pointer1 += 1
+    end
+
+    if pointer2 >= string2.length
+      return false
+    end
+
+    pointer2 += 1
+  end
+
+  true
+end
+
+# p sequence_search("ile", "ieille")
+
+
+def taskMaker(source, challengeId)
+    line_to_replace = nil
+    replaced_line_index = nil
+
+    source.each_with_index do |line, index|
+      if line.split(" ").count > 1 && line.split(" ")[1].scan(/^[0-9]+/).first == challengeId.to_s
+        line_to_replace = source[index]
+
+        replaced_line_index = index
+        until source[replaced_line_index].split(" ")[0][0] != "/"
+          replaced_line_index -= 1
+        end
+      end
+    end
+    source[replaced_line_index] = line_to_replace.gsub(/\/\/.+\/\//, "")
+
+    # p source
+    source.keep_if do |line|
+      line.split(" ").count <= 1 || line.split(" ")[0][0] != "/"
+    end
+end
+#
+# p taskMaker(["abacaba  dabacaba",
+#  "//DB 5//abacaba  abacabadabacaba",
+#  "aaaaaaaa",
+#  "//DB 3//lalalala",
+#  "",
+#  "a",
+#  "         ",
+#  "      a     ",
+#  "codefights",
+#  "//DB 1//codefights is awesome",
+#  "//DB 2//    spaces! ! ! ! !  ",
+#  "//DB 999//reallybignumber"], 999)
+
+def plagiarismCheck(code1, code2)
+  combined_code1 = code1.join(" ")
+  combined_code2 = code2.join(" ")
+
+  i = 0
+  until i > combined_code1.length
+    if combined_code1[i] != combined_code2[i]
+
+    end
+
+    i += 1
+  end
+end
+
+def grab_word(sentence, index)
+  start_of_word = index
+  end_of_word = index
+
+  start_of_word -= 1 until sentence[start_of_word] == " "
+  end_of_word += 1 until sentence[end_of_word] == " "
+
+  sentence[start_of_word + 1...end_of_word]
+end
+
+p grab_word("def is_even_sum(a, b):", 5)
+
+
+p plagiarismCheck(["def is_even_sum(a, b):",
+ "    return (a + b) % 2 == 0"], ["def is_even_sum(summand_1, summand_2):",
+ "    return (summand_1 + summand_2) % 2 == 0"]) #returns true
+
+p plagiarismCheck(["function return_four() {",
+ "  return 3 + 1;",
+ "}"], ["function return_four() {",
+ "  return 1 + 3;",
+ "}"]) #returns false
+
+ #spaces return false
+
+p plagiarismCheck(
+["if (2 * 2 == 5 &&",
+ "true):",
+ "  print 'Tricky test ;)'"],
+
+ ["if (2 * 2 == 5",
+ "&& true):",
+ "  print 'Tricky test ;)'"]) #returns false
