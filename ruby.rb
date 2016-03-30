@@ -589,5 +589,63 @@ end
 # p perfectCity([0.4, 1], [0.9, 3])
 
 def parkingSpot(carDimensions, parkingLot, luckySpot)
+  return false unless validSpot?(parkingLot, luckySpot)
+  debugger
 
+  if luckySpot[2] - luckySpot[0] > luckySpot[3] - luckySpot[1] #left or right
+    return true if canMove?(parkingLot, luckySpot, [1, 0, 1, 0])
+    return true if canMove?(parkingLot, luckySpot, [-1, 0, -1, 0])
+  else #up or down
+    return true if canMove?(parkingLot, luckySpot, [0, 1, 0, 1])
+    return true if canMove?(parkingLot, luckySpot, [0, -1, 0, -1])
+  end
+
+  false
 end
+
+def canMove?(parkingLot, luckySpot, direction)
+  until outOfBounds?(parkingLot, luckySpot)
+    luckySpot.map!.with_index { |coord, index| coord + direction[index] }
+    debugger
+    return true if outOfBounds?(parkingLot, luckySpot)
+    return false unless validSpot?(parkingLot, luckySpot)
+  end
+
+  true
+end
+
+def outOfBounds?(parkingLot, coordinates)
+  result = coordinates[0] < 0 ||
+  coordinates[1] < 0 ||
+  coordinates[2] >= parkingLot.count ||
+  coordinates[3] >= parkingLot[0].count
+
+  result
+end
+
+def validSpot?(parkingLot, luckySpot)
+  (luckySpot[0]..luckySpot[2]).each do |idx_1|
+    (luckySpot[1]..luckySpot[3]).each do |idx_2|
+      debugger
+      return false if parkingLot[idx_1][idx_2] != 0
+    end
+  end
+
+  true
+end
+
+carDimensions = [2, 1]
+parkingLot =
+[[1,1,1,1],
+ [1,0,0,0],
+ [1,0,1,0]]
+luckySpot = [1, 2, 1, 3]
+
+p parkingSpot(carDimensions, parkingLot, luckySpot)
+
+# p validSpot?([
+#     [1, 0, 1, 0, 1, 0],
+#     [1, 0, 0, 0, 1, 0],
+#     [1, 0, 0, 0, 0, 1],
+#     [1, 0, 0, 0, 1, 1]
+# ], [1, 1, 2, 3])
