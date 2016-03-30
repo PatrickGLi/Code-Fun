@@ -515,43 +515,79 @@ def plagiarismCheck(code1, code2)
   i = 0
   until i > combined_code1.length
     if combined_code1[i] != combined_code2[i]
+      word_1 = grab_word(combined_code1, i)
+      word_2 = grab_word(combined_code2, i)
 
+      combined_code1 = combined_code1.gsub(word_1, word_2)
+
+      p combined_code1
     end
-
-    i += 1
+      i += 1
   end
+
+  combined_code1 == combined_code2 ? true : false
 end
 
 def grab_word(sentence, index)
   start_of_word = index
   end_of_word = index
 
-  start_of_word -= 1 until sentence[start_of_word] == " "
-  end_of_word += 1 until sentence[end_of_word] == " "
+  start_of_word -= 1 until sentence[start_of_word] =~ / |;|\)|\(|,/
+
+  end_of_word += 1 until sentence[end_of_word] =~ / |;|\)|\(|,/
 
   sentence[start_of_word + 1...end_of_word]
 end
 
-p grab_word("def is_even_sum(a, b):", 5)
+# p grab_word("def 3 is_even_sum(a, b):", 4)
 
 
-p plagiarismCheck(["def is_even_sum(a, b):",
- "    return (a + b) % 2 == 0"], ["def is_even_sum(summand_1, summand_2):",
- "    return (summand_1 + summand_2) % 2 == 0"]) #returns true
+# p plagiarismCheck(["def is_even_sum(a, b):",
+#  "    return (a + b) % 2 == 0"], ["def is_even_sum(summand_1, summand_2):",
+#  "    return (summand_1 + summand_2) % 2 == 0"]) #returns true
+#
+# p plagiarismCheck(["function return_four() {",
+#  "  return 3 + 1;",
+#  "}"], ["function return_four() {",
+#  "  return 1 + 3;",
+#  "}"]) #returns false
+#
+#  # spaces return false
+#
+# p plagiarismCheck(
+# ["if (2 * 2 == 5 &&",
+#  "true):",
+#  "  print 'Tricky test ;)'"],
+#
+#  ["if (2 * 2 == 5",
+#  "&& true):",
+#  "  print 'Tricky test ;)'"]) #returns false
 
-p plagiarismCheck(["function return_four() {",
- "  return 3 + 1;",
- "}"], ["function return_four() {",
- "  return 1 + 3;",
- "}"]) #returns false
+def perfectCity(departure, destination, distance = 0)
+  distances = []
 
- #spaces return false
+    departure = [[departure.first.floor, departure.last.floor, (departure.first - departure.first.floor).abs + (departure.last - departure.last.floor).abs],
+                 [departure.first.ceil, departure.last.ceil, (departure.first - departure.first.ceil).abs + (departure.last - departure.last.ceil).abs],
+                 [departure.first.ceil, departure.last.floor, (departure.first - departure.first.ceil).abs + (departure.last - departure.last.floor).abs],
+                 [departure.first.floor, departure.last.ceil, (departure.first - departure.first.floor).abs + (departure.last - departure.last.ceil).abs]]
 
-p plagiarismCheck(
-["if (2 * 2 == 5 &&",
- "true):",
- "  print 'Tricky test ;)'"],
+   destination = [[destination.first.floor, destination.last.floor, (destination.first - destination.first.floor).abs + (destination.last - destination.last.floor).abs],
+                [destination.first.ceil, destination.last.ceil, (destination.first - destination.first.ceil).abs + (destination.last - destination.last.ceil).abs],
+                [destination.first.ceil, destination.last.floor, (destination.first - destination.first.ceil).abs + (destination.last - destination.last.floor).abs],
+                [destination.first.floor, destination.last.ceil, (destination.first - destination.first.floor).abs + (destination.last - destination.last.ceil).abs]]
 
- ["if (2 * 2 == 5",
- "&& true):",
- "  print 'Tricky test ;)'"]) #returns false
+    departure.each do |coordinate_1|
+      destination.each do |coordinate_2|
+        distances << (coordinate_2[1] - coordinate_1[1]).abs + (coordinate_2[0] - coordinate_1[0]).abs + coordinate_1[2] + coordinate_2[2]
+      end
+    end
+
+
+    distances.min
+end
+
+# p perfectCity([0.4, 1], [0.9, 3])
+
+def parkingSpot(carDimensions, parkingLot, luckySpot)
+
+end
