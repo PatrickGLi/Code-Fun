@@ -626,7 +626,7 @@ end
 def validSpot?(parkingLot, luckySpot)
   (luckySpot[0]..luckySpot[2]).each do |idx_1|
     (luckySpot[1]..luckySpot[3]).each do |idx_2|
-      debugger
+      # debugger
       return false if parkingLot[idx_1][idx_2] != 0
     end
   end
@@ -641,7 +641,7 @@ parkingLot =
  [1,0,1,0]]
 luckySpot = [1, 2, 1, 3]
 
-p parkingSpot(carDimensions, parkingLot, luckySpot)
+# p parkingSpot(carDimensions, parkingLot, luckySpot)
 
 # p validSpot?([
 #     [1, 0, 1, 0, 1, 0],
@@ -649,3 +649,64 @@ p parkingSpot(carDimensions, parkingLot, luckySpot)
 #     [1, 0, 0, 0, 0, 1],
 #     [1, 0, 0, 0, 1, 1]
 # ], [1, 1, 2, 3])
+
+=begin
+
+ *  A robot located at the top left corner of a NxN grid is trying to reach the
+ *  bottom right corner. The robot can move either up, down, left, or right,
+ *  but cannot visit the same spot twice. How many possible unique paths are
+ *  there to the bottom right corner?
+
+=end
+
+def possible_paths(grid)
+  possible_paths = [[1, 0], [0, 1], [-1, 0], [0, -1]]
+
+  start = {
+            location: [0, 0],
+            previous: {}
+          }
+
+  queue = [start]
+  number_of_ways = 0
+
+  until queue.empty?
+    current = queue.shift
+
+    current[:previous][current[:location]] = true
+
+    possible_paths.each do |path|
+      last_location = current
+      # debugger
+
+      new_coordinates = [last_location[:location][0] + path[0], last_location[:location][1] + path[1]]
+
+      new_location = {
+                      location: new_coordinates,
+                      previous: last_location[:previous]
+                    }
+
+                    # debugger
+      if new_location[:location] == [grid[0].count - 1, grid.count - 1]
+        number_of_ways += 1
+        next
+      end
+
+      if in_bounds?(grid, new_location[:location]) &&
+         !new_location[:previous].keys.include?(new_location[:location])
+        #  debugger
+         queue << new_location
+      end
+    end
+  end
+
+  number_of_ways
+end
+
+def in_bounds?(grid, coordinate)
+  # debugger
+  coordinate[0].between?(0, grid[0].count - 1) &&
+  coordinate[1].between?(0, grid.count - 1)
+end
+
+p possible_paths([[0,0, 0],[0,0, 0], [0, 0 , 0]])
