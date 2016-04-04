@@ -664,7 +664,7 @@ def possible_paths(grid)
 
   start = {
             location: [0, 0],
-            previous: {}
+            previous: Hash.new
           }
 
   queue = [start]
@@ -681,9 +681,14 @@ def possible_paths(grid)
 
       new_coordinates = [last_location[:location][0] + path[0], last_location[:location][1] + path[1]]
 
+      previous_locations = Hash.new
+      current[:previous].each do |k, v|
+        previous_locations[k] = true
+      end
+
       new_location = {
                       location: new_coordinates,
-                      previous: last_location[:previous]
+                      previous: previous_locations
                     }
 
                     # debugger
@@ -697,6 +702,7 @@ def possible_paths(grid)
         #  debugger
          queue << new_location
       end
+      # debugger
     end
   end
 
@@ -709,4 +715,4 @@ def in_bounds?(grid, coordinate)
   coordinate[1].between?(0, grid.count - 1)
 end
 
-p possible_paths([[0,0, 0],[0,0, 0], [0, 0 , 0]])
+p possible_paths([[0,0],[0,0]])
