@@ -10,11 +10,12 @@ class Tile
   end
 
   def inspect
+    return "F" if @flagged
     @visited ? "#{@visited}" : "*"
   end
 
-  def flag
-    @flagged = true
+  def toggle_flag
+    @flagged = @flagged ? false : true
   end
 
   def visited?
@@ -60,6 +61,8 @@ class Tile
   end
 
   def explore_tile
+    return -1 if bombed?
+
     bomb_count = neighbor_bomb_count
     @visited = bomb_count > 0 ? bomb_count : "_"
     bomb_count
