@@ -715,4 +715,85 @@ def in_bounds?(grid, coordinate)
   coordinate[1].between?(0, grid.count - 1)
 end
 
-p possible_paths([[0,0],[0,0]])
+SELF_ENCLOSING = {
+    "<div />"=> "DIV({})",
+    "<p />"=> "P({})",
+    "<img />"=> "IMG({})",
+    "<b />"=> "B({})"
+    }
+
+STARTING = {
+    "<div>"=> "DIV([",
+    "<p>"=> "P([",
+    "<img>"=> "IMG([",
+    "<b>"=> "B([",
+    }
+
+CLOSING = {
+    "</div>"=> "])",
+    "</p>"=> "])",
+    "</img>"=> "])",
+    "</b>"=> "])",
+    }
+
+
+    def validHTML?(html_tags)
+        html_tags = html_tags.gsub(">", ">;").split(";")
+        start_stack = []
+
+        html_tags.each do |tag|
+            if STARTING.keys.include?(tag)
+                start_stack << tag
+            elsif CLOSING.keys.include?(tag)
+                return false unless start_stack.last == tag.gsub("/", "")
+                start_stack.pop
+            end
+        end
+
+        true
+    end
+#
+# p validHTML?("<div><p><img /></p><b></b></div>")
+
+def busyHolidays(shoppers, orders, leadTime)
+    return true if orders.empty?
+
+    orders.each_with_index do |order, idx_1|
+        shoppers.each_with_index do |times, idx_2|
+            converted_order_time = convertTime(order[0])
+            earliest_start_time = [convertTime(times[0]), converted_order_time].max
+            earliest_delivery_time = earliest_start_time + leadTime[idx_1].to_f / 60
+
+            if earliest_delivery_time <= convertTime(order[-1]) &&
+                earliest_delivery_time <= convertTime(times[-1])
+
+                leftover_shoppers = shoppers.dup
+                leftover_shoppers.delete_at(idx_2)
+
+                leftover_orders = orders.dup
+                leftover_orders.delete_at(idx_1)
+
+                leftover_lead_times = leadTime.dup
+                leftover_lead_times.delete_at(idx_2)
+
+
+                return true if busyHolidays(leftover_shoppers, leftover_orders, leftover_lead_times)
+            end
+        end
+    end
+
+    false
+end
+
+def convertTime(time)
+    time = time.split(":")
+    time.first.to_f + time.last.to_f / 60
+end
+
+shoppers = [["15:10","16:00"],
+ ["17:40","22:30"]]
+orders = [["17:30","18:00"],
+ ["15:00","15:45"]]
+leadTime = [15, 30]
+
+p busyHolidays(shoppers, orders, leadTime)
