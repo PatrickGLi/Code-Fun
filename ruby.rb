@@ -765,7 +765,7 @@ def busyHolidays(shoppers, orders, leadTime)
             earliest_delivery_time = earliest_start_time + leadTime[idx_1].to_f / 60
 
             if earliest_delivery_time <= convertTime(order[-1]) &&
-                earliest_delivery_time <= convertTime(times[-1])
+               earliest_delivery_time <= convertTime(times[-1])
 
                 leftover_shoppers = shoppers.dup
                 leftover_shoppers.delete_at(idx_2)
@@ -796,4 +796,159 @@ orders = [["17:30","18:00"],
  ["15:00","15:45"]]
 leadTime = [15, 30]
 
-p busyHolidays(shoppers, orders, leadTime)
+# p busyHolidays(shoppers, orders, leadTime)
+
+def combinations_of_numbers(num_string)
+  return [num_string] if num_string.length == 1
+  results = []
+
+  string_combos = combinations_of_numbers(num_string[1..-1])
+
+  string_combos.each do |combo|
+    results << num_string[0] + " " + combo
+    results << num_string[0] + combo
+  end
+
+  results
+end
+
+
+def sub_spaces(combination)
+  return [combination] if combination == combination.gsub(" ", "")
+  results = []
+
+  characters = ["*", "/", "+", "-"]
+
+  index = combination.index(" ")
+  combos = sub_spaces(combination[index + 1 .. -1])
+  combos.each do |combo|
+    characters.each do |character|
+      results << combination[0...index] + character + combo
+    end
+  end
+
+  results
+end
+
+def evaluate(string, target)
+  options = []
+
+  combinations_of_numbers(string).each do |combo|
+    options.concat(sub_spaces(combo))
+  end
+
+
+  answers = []
+  options.each do |string|
+
+    if eval(string) == target
+      answers << string
+    end
+  end
+
+  answers
+end
+
+# p evaluate("3141592653", 39)
+
+#   results = []
+#     combination.each do |combo|
+#       index = combo.index(" ")
+#       characters.each do |character|
+#         translation = combo.sub(" ", character)
+#
+#         results << combo[0..index] + combination_of_characters(translation[index + 1..-1])
+#       end
+#     end
+#
+#     results
+# end
+
+
+# p sub_spaces(combinations_of_numbers("314159").first)
+
+# def ways_to_target(number, target)
+#   results = []
+#   combinations = combinations_of_numbers(number)
+#
+#   combinations.each do |combo|
+#     CHARACTERS.each do |character|
+#       combo.sub(" ", character)
+#
+#       ways_to_target()
+#     end
+#
+#   end
+#
+# end
+
+
+def permutations(word, max_swaps, swaps_made)
+    return [word] if max_swaps == swaps_made
+    return [word] if word.length == 1
+    # p word, max_swaps, swaps_made
+    results = []
+    word_index = 0
+
+    no_current_swap = permutations(word[1..-1], max_swaps, swaps_made)
+
+    no_current_swap.each do |letters|
+      results << word[0] + letters
+    end
+
+    current_swap = permutations(word[0] + word[2..-1], max_swaps, swaps_made + 1)
+
+    current_swap.each do |letters|
+      results << word[1] + letters
+    end
+
+    results.delete(word)
+    results
+end
+
+x = permutations("godaddy", 2, 0)
+y = permutations("com", 1, 0)
+# puts x.length
+
+def print_diagonals(matrix)
+  y_index = 0
+  while y_index < matrix.first.count
+    diagonal = []
+    current_y_index = y_index
+    current_x_index = 0
+    while in_bounds?(matrix, [current_x_index, current_y_index])
+      diagonal << matrix[current_x_index][current_y_index]
+      current_x_index += 1
+      current_y_index -= 1
+    end
+
+    p diagonal
+    y_index += 1
+  end
+
+  x_index = 1
+
+  while x_index < matrix.count
+    diagonal = []
+    current_x_index = x_index
+    current_y_index = matrix.first.count - 1
+    while in_bounds?(matrix, [current_x_index, current_y_index])
+      diagonal << matrix[current_x_index][current_y_index]
+      current_x_index += 1
+      current_y_index -= 1
+    end
+
+    p diagonal
+    x_index += 1
+  end
+
+end
+
+def in_bounds?(matrix, coord)
+  coord[0].between?(0, matrix[0].count - 1) &&
+  coord[1].between?(0, matrix.count - 1)
+end
+
+print_diagonals([[0,1,2],
+                 [3,4,5],
+                 [6,7,8]])
