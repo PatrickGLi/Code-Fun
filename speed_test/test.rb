@@ -71,3 +71,38 @@ def valid_ip(str)
   nums = str.split(".").map(&:to_i)
   nums.all? {|num| num >= 0 && num <= 255}
 end
+
+def sum_from_file(file)
+  sum = 0
+  File.readlines(file) do |line|
+    next if line[0] == "#"
+    sum += line.to_i
+  end
+
+  sum
+end
+
+def shuffle(array)
+  index = 0
+  while index < array.length - 1
+    new_index = rand(index...array.length)
+    array[index], array[new_index] = array[new_index], array[index]
+    index += 1
+  end
+
+  array
+end
+
+def folding_cipher(str)
+  alphabet = ("a".."z").to_a
+  reverse = alphabet.reverse
+
+  fold_cipher = Hash[alphabet.zip(reverse)]
+  # p fold_cipher
+
+  result = ""
+  str.each_char { |char| result << fold_cipher[char] }
+  result
+end
+
+p folding_cipher("hey")

@@ -9,3 +9,12 @@ function isPalindrome(str) {
 }
 
 // console.log(isPalindrome("hehsdf"))
+
+Array.prototype.myMap = function(cb) {
+  var result = [];
+  this.forEach(function(element){
+    result.push(cb(element));
+  });
+
+  return result;
+};
