@@ -140,3 +140,23 @@ def matrix_region_sum(matrix, coordinates)
 
   sum
 end
+
+def fast_intersection(arr1, arr2)
+  first = Set.new
+
+  arr1.each do |el|
+    first.add(el) unless first.include?(el)
+  end
+
+  result = []
+
+  arr2.each do |el|
+    result << el if arr1.include?(el)
+  end
+
+  result
+end
+
+def common_subsets(arr1, arr2)
+  subsets(fast_intersection(arr1, arr2))
+end
