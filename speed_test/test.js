@@ -129,3 +129,44 @@ function merge(leftArray, rightArray) {
 };
 
 // console.log([1,6,1,2,5,9,2,5].mergeSort());
+
+function binarySearch(sortedArray, target) {
+  if (sortedArray.length === 0) {
+    return null;
+  }
+
+  var median = Math.floor(sortedArray.length / 2);
+
+  var firstHalf = sortedArray.slice(0, median),
+      rightHalf = sortedArray.slice(median + 1, sortedArray.length);
+
+      console.log(rightHalf);
+  if (sortedArray[median] === target) {
+    return median;
+  } else if (sortedArray[median] > target) {
+    return binarySearch(firstHalf, target);
+  } else {
+    var result = binarySearch(rightHalf, target);
+    if (result === null) {
+      return null;
+    }
+
+    return result + median + 1;
+  };
+}
+
+// console.log(binarySearch([1,2,5,7,9,10], 6.5));
+
+function productify(arr) {
+  var leftProd = [1];
+  var i = 0;
+  while (i < arr.length - 1) {
+    leftProd.push(arr[i] * leftProd[leftProd.length - 1]);
+    i++;
+  }
+
+  // console.log(leftProd);
+
+};
+
+// productify([1,2,4,5]);
