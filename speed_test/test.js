@@ -170,3 +170,46 @@ function productify(arr) {
 };
 
 // productify([1,2,4,5]);
+
+function subsets(arr) {
+  if (arr.length === 0) {
+    return [[]];
+  }
+
+  var previous = subsets(arr.slice(1, arr.length));
+
+  var newer = previous.map(function(combo) {
+    return [arr[0]].concat(combo);
+  })
+
+  return previous.concat(newer);
+};
+
+// console.log(subsets([1,4,6,7]));
+
+function palindrome(string) {
+  var bestPalindromeStart = 0,
+      palindromeLength = 1;
+
+  var i = 0;
+  while (i < string.length - palindromeLength) {
+    if (isPalindrome(string.substring(i, i + palindromeLength + 1))) {
+      palindromeLength ++;
+      bestPalindromeStart = i;
+    } else {
+      i++;
+    }
+  }
+
+  return [bestPalindromeStart, bestPalindromeStart + palindromeLength]
+};
+
+function isPalindrome(string) {
+  for (var i = 0; i < Math.floor(string.length / 2); i++) {
+    if (string[i] !== string[string.length - i - 1]) {
+      return false;
+    }
+  };
+
+  return true;
+};
