@@ -96,3 +96,36 @@ function pairSum(arr, k) {
 }
 
 // console.log(pairSum([1,5,3,4,6,3], 4));
+
+
+Array.prototype.mergeSort = function(){
+  if (this.length <= 1) {
+    return this;
+  }
+
+  var median = Math.floor(this.length / 2)
+
+  var leftArray = this.slice(0, median),
+      rightArray = this.slice(median, this.length);
+
+  return merge(leftArray.mergeSort(), rightArray.mergeSort());
+};
+
+function merge(leftArray, rightArray) {
+
+  var leftIndex = 0, rightIndex = 0, result = [];
+
+  while (leftIndex < leftArray.length && rightIndex < rightArray.length) {
+    if (leftArray[leftIndex] <= rightArray[rightIndex]) {
+      result.push(leftArray[leftIndex]);
+      leftIndex ++;
+    } else {
+      result.push(rightArray[rightIndex]);
+      rightIndex ++;
+    }
+  }
+
+  return result.concat(leftArray.slice(leftIndex, leftArray.length)).concat(rightArray.slice(rightIndex, rightArray.length));
+};
+
+// console.log([1,6,1,2,5,9,2,5].mergeSort());

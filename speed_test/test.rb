@@ -105,4 +105,38 @@ def folding_cipher(str)
   result
 end
 
-p folding_cipher("hey")
+# p folding_cipher("hey")
+
+
+def permutations(string)
+  return [""] if string.length == 0
+
+  result = []
+  string.each_char.with_index do |char, index|
+    left_letters = string[0...index]
+    right_letters = index == string.length - 1 ? "" : string[index + 1 .. -1]
+    remaining_letters = left_letters + right_letters
+
+    leftover_combnations = permutations(remaining_letters)
+    leftover_combnations.map! do |combo|
+      char + combo
+    end
+
+    result.concat(leftover_combnations)
+  end
+
+  result
+end
+
+# p permutations("abcd")
+
+def matrix_region_sum(matrix, coordinates)
+  sum = 0
+  (coordinates[0][0]..coordinates[1][0]).each do |x|
+    (coordinates[0][1]..coordinates[1][1]).each do |y|
+      sum += matrix[x][y]
+    end
+  end
+
+  sum
+end
