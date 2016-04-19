@@ -160,3 +160,15 @@ end
 def common_subsets(arr1, arr2)
   subsets(fast_intersection(arr1, arr2))
 end
+
+def weighted_random_index(arr)
+  sum = arr.inject(&:+)
+
+  guess = rand(sum)
+
+  cumulative_sum = 0
+  arr.each do |num|
+    cumulative_sum += num
+    return num if guess <= cumulative_sum
+  end
+end
