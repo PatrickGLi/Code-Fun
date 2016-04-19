@@ -213,3 +213,55 @@ function isPalindrome(string) {
 
   return true;
 };
+
+function sum(num) {
+  while (typeof num !== "undefined") {
+    function addNumber(nextNum) {
+      if (typeof nextNum === "undefined") {
+        return num;
+      }
+      num += nextNum;
+      return addNumber;
+    }
+
+    return addNumber;
+  }
+}
+
+// console.log(sum(3)(4)); // 7
+// console.log(sum(3)(4)(3)(5)(-1)()); // 14
+
+function canWin(arr, target) {
+  var log = new Set();
+
+  var queue = [[arr[0], 0]];
+
+  while (queue.length > 0) {
+    var firstValue = queue.drop;
+
+    if (firstValue[0] === target) {
+      return firstValue[1];
+    }
+
+    var leftIndex = firstValue[1] - firstValue[0],
+        rightIndex = firstValue[1] + firstValue[1];
+
+    if (leftIndex <= 0) {
+      if (!log.include(arr[leftIndex])) {
+        queue.push([arr[leftIndex], leftIndex]);
+        log.add(arr[leftIndex]);
+      }
+    }
+
+    if (rightIndex > arr.length) {
+      if (!log.include(arr[rightIndex])) {
+        queue.push([arr[rightIndex], rightIndex]);
+        log.add(arr[rightIndex]);
+      }
+    }
+
+
+  }
+
+  return -1;
+};
