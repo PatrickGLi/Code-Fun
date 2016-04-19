@@ -265,3 +265,18 @@ function canWin(arr, target) {
 
   return -1;
 };
+
+function moveZeros(arr) {
+  var index = 0,
+      numZeros = 0;
+
+  while (index < arr.length - numZeros) {
+    if (arr[index] === 0) {
+      arr[index], arr[arr.length - 1 - numZeros] = arr[arr.length - 1 - numZeros], arr[index];
+    } else {
+      index ++;
+    }
+  }
+
+  return arr;
+};
