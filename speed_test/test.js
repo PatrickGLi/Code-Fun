@@ -280,3 +280,29 @@ function moveZeros(arr) {
 
   return arr;
 };
+
+function lookAndSay(arr) {
+  var result = [];
+
+  var index = 0;
+
+  while (index < arr.length) {
+    if (result.length === 0) {
+      result.push([arr[index], 1]);
+      index ++;
+      continue;
+    }
+
+    if (arr[index] === result[result.length - 1][0]) {
+      result[result.length - 1][1] ++;
+    } else {
+      result.push([arr[index], 1]);
+    }
+
+    index ++;
+  }
+
+  return result;
+};
+
+// console.log(lookAndSay([1, 2, 1, 1]));
