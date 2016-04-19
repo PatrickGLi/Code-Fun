@@ -350,6 +350,31 @@ MinMaxStackQueue.prototype.max = function() {
   return [this.enqueue.max(), this.dequeue.max()].max;
 };
 
+function windowMaxedRange(arr, windowSize) {
+  // use min max stack queue to queue until reaches windowssize
+  // then continually enqueu and dequeue
+  //the max and min can be found
+};
+
+function curriedSum(num) {
+  if (typeof num === "undefined") {
+    return null;
+  }
+
+  function _curriedSum(nextNum) {
+    if (typeof nextNum === "undefined") {
+      return num;
+    }
+    num += nextNum;
+    return _curriedSum;
+  };
+
+  return _curriedSum;
+};
+
+// console.log(curriedSum(3)(4)(-1)(4)());
+
+
 // console.log(lookAndSay([1, 2, 1, 1]));
 
 //sums upon sums add all the numbers together and divide by total number of elements

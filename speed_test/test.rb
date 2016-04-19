@@ -172,3 +172,51 @@ def weighted_random_index(arr)
     return num if guess <= cumulative_sum
   end
 end
+
+def hash_dictionary(hash)
+  result = []
+
+  hash.each do |k, v|
+    if v.is_a? Hash
+      next_paths = hash_dictionary(v)
+      result.concat(next_paths.map do |path|
+        "#{k}/#{path}"
+      end)
+    else
+      result << k
+    end
+  end
+
+  result
+end
+
+files = {
+  'a' => {
+    'b' => {
+      'c' => {
+        'd' => {
+          'e' => true
+        },
+
+        'f' => true
+      }
+    }
+  }
+}
+
+# p hash_dictionary(files)
+
+def is_shuffle?(str1, str2, str3)
+
+
+
+  if str1[0] == str3[0]
+
+
+  end
+
+  if str2[str2_idx] == str3[str3_idx]
+    is_shuffle?()
+  end
+
+end
