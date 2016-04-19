@@ -305,4 +305,52 @@ function lookAndSay(arr) {
   return result;
 };
 
+var Stack = function() {
+  this.stack = [];
+  this.min = [];
+  this.max = [];
+};
+
+Stack.prototype.push = function(el) {
+  this.stack.push(el);
+  if (el > this.max[this.max.length - 1]) {
+    this.max.push(el);
+  } else {
+    this.max.push(this.max[this.max.length - 1]);
+  }
+  return this.stack;
+};
+
+Stack.prototype.pop = function() {
+  this.stack.pop();
+  this.max.pop();
+  this.min.pop();
+  return this.stack;
+};
+
+Stack.prototype.max = function() {
+  return this.max[this.max.length - 1];
+};
+
+
+var MinMaxStackQueue = function() {
+  this.enqueue = new Stack();
+  this.dequeue = new Stack();
+};
+
+MinMaxStackQueue.prototype.enqueue = function(el) {
+  this.enqueue.push(el);
+};
+
+MinMaxStackQueue.prototype.dequeue = function() {
+
+};
+
+MinMaxStackQueue.prototype.max = function() {
+  return [this.enqueue.max(), this.dequeue.max()].max;
+};
+
 // console.log(lookAndSay([1, 2, 1, 1]));
+
+//sums upon sums add all the numbers together and divide by total number of elements
+// difference will equate to misisng number
