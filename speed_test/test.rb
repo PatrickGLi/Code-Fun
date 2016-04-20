@@ -207,16 +207,89 @@ files = {
 # p hash_dictionary(files)
 
 def is_shuffle?(str1, str2, str3)
-
-
+  return true if str3.empty? && str1.empty? && str2.empty?
 
   if str1[0] == str3[0]
-
-
+    return true if is_shuffle?(str1[1..-1], str2, str3[1..-1])
   end
 
-  if str2[str2_idx] == str3[str3_idx]
-    is_shuffle?()
+  if str2[0] == str3[0]
+    return true if is_shuffle?(str1, str2[1..-1], str3[1..-1])
   end
 
+  false
 end
+
+def psubs(str)
+  return [""] if str.empty?
+
+  result = []
+  next_letters = psubs(str[1..-1])
+
+  next_letters.each do |prev|
+    result << str[0] + prev
+    result << prev
+  end
+
+  result
+end
+
+# p psubs("abcd")
+#
+# def quicksort (arr)
+#   #pivot , start_idx, end_idx
+#   queue = [[arr[0], 0, arr.length - 1]]
+#
+#   until queue.empty?
+#     first = queue.shift
+#
+#     #swap pivot
+#     halfway_idx = first[2] / 2
+#     arr[first[1]], arr[halfway_idx] = arr[halfway_idx], arr[first[1]]
+#     left_idx = first[1]
+#     right_idx = halfway_idx + 1
+#
+#     iterator = first[1]
+#
+#     while iterator < first[2]
+#       next if iterator == halfway_idx
+#
+#       debugger
+#       if arr[iterator] <= first[0]
+#           arr[iterator], arr[left_idx] = arr[left_idx], arr[iterator]
+#           left_idx += 1
+#       elsif arr[iterator] > first[0]
+#           arr[right_idx], arr[iterator] = arr[iterator] , arr[right_idx]
+#           right_idx += 1
+#       else
+#           iterator += 1
+#       end
+#     end
+#     #
+    # (first[1]..first[2]).each do |idx|
+    #   next if idx == halfway_idx
+    #   # debugger
+    #   if arr[idx] <= first[0]
+    #       arr[idx], arr[left_idx] = arr[left_idx], arr[idx]
+    #       left_idx += 1
+    #   elsif arr[idx] > first[0]
+    #       arr[right_idx], arr[idx] = arr[idx] , arr[right_idx]
+    #       right_idx += 1
+    #   else
+    #         iterator += 1
+    #   end
+    # end
+
+#     leftpiece = [arr[first[1]], first[1], halfway_idx - 1]
+#     rightpiece = [arr[halfway_idx + 1], halfway_idx + 1, first[2]]
+#
+#     debugger
+#
+#     queue << leftpiece unless leftpiece[2] - leftpiece[1] <= 1
+#     queue << rightpiece unless rightpiece[2] - rightpiece[1] <= 1
+#   end
+#
+#   arr
+# end
+
+# p quicksort([1,4,5,2,3])

@@ -357,10 +357,6 @@ function windowMaxedRange(arr, windowSize) {
 };
 
 function curriedSum(num) {
-  if (typeof num === "undefined") {
-    return null;
-  }
-
   function _curriedSum(nextNum) {
     if (typeof nextNum === "undefined") {
       return num;
@@ -372,10 +368,82 @@ function curriedSum(num) {
   return _curriedSum;
 };
 
-// console.log(curriedSum(3)(4)(-1)(4)());
+console.log(curriedSum(3)(4)(-1)(4)());
 
 
 // console.log(lookAndSay([1, 2, 1, 1]));
 
 //sums upon sums add all the numbers together and divide by total number of elements
 // difference will equate to misisng number
+
+function isShuffle (str1, str2, str3) {
+  var seen = new Hash();
+  candidates = [[0, 0]];
+
+  while (candidates.length > 0) {
+    var candidate = candidates.shift();
+    var firstNum = str1[candidate[0]];
+    var secondNum = str2[candidate[1]];
+
+    if (candidate[0] + candidate[1] === str3.length) {
+      return true;
+    }
+
+    if (firstNum === str3[0]) {
+      if (!seen[firstNum]) {
+        candidates.push([candidate[0] + 1, candidate[1]]);
+      }
+
+      seen[firstNum] = true;
+    }
+
+    if (secondNum === str3[1]) {
+      if (!seen[secondNum]) {
+        candidates.push([candidate[0], candidate[1] + 1]);
+      }
+    }
+  }
+
+  return false;
+};
+
+function binary(num) {
+  var result = ""
+  while (!num == 0) {
+    result += (num % 2).toString();
+
+    num = Math.floor(n / 2);
+  }
+
+  return result;
+};
+
+function isBinaryTree(node, min, max) {
+
+  var leftTree = node.left(),
+      rightTree = node.right();
+
+      if (leftTree >= min && leftTree <= max ||
+      typeof max === "undefined") {
+        var next = isBinaryTree(leftTree, min, node);
+
+        if (next) {
+          return true;
+        }
+      }
+
+      if (rightTree >= min && rightTree <= max ||
+      typeof min === "undefined") {
+        var next = isBinaryTree(rightTree, node, min);
+
+        if (next) {
+          return true;
+        }
+      }
+
+
+      return false;
+
+
+
+};
