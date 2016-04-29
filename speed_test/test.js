@@ -443,7 +443,13 @@ function isBinaryTree(node, min, max) {
 
 
       return false;
+};
 
+function findCommonAncestor (root, nodeA, nodeB) {
+  var currentNode = root;
 
+  while (currentNode) {
+
+  };
 
 };

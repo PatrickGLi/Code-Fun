@@ -293,3 +293,24 @@ end
 # end
 
 # p quicksort([1,4,5,2,3])
+
+def insertionSort( ar)
+  element = ar.last
+
+  last_index = ar.length - 1
+  while last_index > 0
+    if ar[last_index - 1] >= element
+      ar[last_index] = ar[last_index - 1]
+      last_index -= 1
+      puts ar.join(" ")
+    else
+      ar[last_index] = element
+      puts ar.join(" ")
+      break
+    end
+  end
+
+  ar
+end
+
+insertionSort([2,3,4,5,6,7,8,9,10,1])
