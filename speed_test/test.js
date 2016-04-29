@@ -368,7 +368,7 @@ function curriedSum(num) {
   return _curriedSum;
 };
 
-console.log(curriedSum(3)(4)(-1)(4)());
+// console.log(curriedSum(3)(4)(-1)(4)());
 
 
 // console.log(lookAndSay([1, 2, 1, 1]));
@@ -449,7 +449,54 @@ function findCommonAncestor (root, nodeA, nodeB) {
   var currentNode = root;
 
   while (currentNode) {
+    if (currentNode === nodeA || currentNode === nodeB) {
+      return currentNode;
+    }
 
+    if (nodeA.value < currentNode.value && nodeB.value < currentNode.value) {
+      currentNode = currentNode.left();
+    } else if (nodeA.value > currentNode.value && nodeB.value > currentNode.value) {
+      currentNode = currentNode.right();
+    } else {
+      return currentNode;
+    }
   };
 
+  return null;
 };
+
+var romanNumbers = [["M", 1000], ["D", 500], ["C", 100], ["L", 50], ["X", 10], ["V", 5], ["I", 1]];
+var floors = [["C", 100], ["X", 10], ["I", 1]];
+
+function romanNumerals(num, romanNumbers, floors) {
+  if (num <= 0) {
+    return "";
+  }
+
+  var result = "";
+  var currentFloor = floors;
+
+  while (num >= romanNumbers[0][1]) {
+    result += romanNumbers[0][0];
+    num -= romanNumbers[0][1];
+  }
+
+  if (romanNumbers[0][1] === currentFloor[0][1]) {
+    currentFloor = currentFloor.slice(1);
+  }
+
+  if (currentFloor.length > 0) {
+    var exception = romanNumbers[0][1] - currentFloor[0][1];
+
+    if (num >= exception) {
+      num -= exception;
+      result += currentFloor[0][0] + romanNumbers[0][0];
+    }
+  }
+
+  result += romanNumerals(num, romanNumbers.slice(1), currentFloor);
+
+  return result;
+};
+
+console.log(romanNumerals(900, romanNumbers, floors));
