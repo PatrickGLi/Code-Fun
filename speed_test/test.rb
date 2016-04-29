@@ -298,15 +298,15 @@ def insertionSort( ar)
   element = ar.last
 
   last_index = ar.length - 1
-  while last_index > 0
-    if ar[last_index - 1] >= element
-      ar[last_index] = ar[last_index - 1]
-      last_index -= 1
-      puts ar.join(" ")
-    else
+  while last_index >= 0
+    if last_index - 1 < 0 || ar[last_index - 1] < element
       ar[last_index] = element
       puts ar.join(" ")
       break
+    else
+      ar[last_index] = ar[last_index - 1]
+      last_index -= 1
+      puts ar.join(" ")
     end
   end
 
