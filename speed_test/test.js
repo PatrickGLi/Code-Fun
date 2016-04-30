@@ -474,16 +474,13 @@ function romanNumerals(num, romanNumbers, floors) {
   }
 
   var result = "";
-  var currentFloor = floors;
 
   while (num >= romanNumbers[0][1]) {
     result += romanNumbers[0][0];
     num -= romanNumbers[0][1];
   }
 
-  if (romanNumbers[0][1] === currentFloor[0][1]) {
-    currentFloor = currentFloor.slice(1);
-  }
+  var currentFloor = romanNumbers[0][1] === floors[0][1] ? floors.slice(1) : floors;
 
   if (currentFloor.length > 0) {
     var exception = romanNumbers[0][1] - currentFloor[0][1];
@@ -499,4 +496,96 @@ function romanNumerals(num, romanNumbers, floors) {
   return result;
 };
 
-console.log(romanNumerals(900, romanNumbers, floors));
+// console.log(romanNumerals(900, romanNumbers, floors));
+
+function makeChange(target, coins, cache) {
+  if (target <= 0) {
+    return [];
+  }
+
+  var bestChange = null;
+
+  coins.forEach(function(coin) {
+    if (coin > target) {
+      return;
+    }
+
+    var remainder = target - coin;
+
+    cache[remainder] = cache[remainder] || makeChange(remainder, coins, cache);
+    var currentChange = cache[remainder].concat([coin]) ;
+
+    if (bestChange === null || currentChange.length < bestChange.length) {
+      bestChange = currentChange;
+    }
+  });
+
+  cache[target] = bestChange;
+  return bestChange;
+};
+
+// console.log(makeChange(14, [5,3,1], {}));
+
+function numberOfWays(grid) {
+  var directions = [[1, 0], [0, 1], [-1, 0], [0, -1]]
+
+  var queue = [[[0, 0], {}]];
+  var numWays = 0;
+
+  function inBounds(coordinates) {
+    return coordinates[0] >= 0 && coordinates[0] < grid[0].length
+    && coordinates[1] >= 0 && coordinates[1] < grid.length;
+  };
+
+  while (queue.length > 0) {
+    var currentPosition = queue.shift();
+
+    directions.forEach(function(direction) {
+      var nextLocation = [currentPosition[0][0] + direction[0], currentPosition[0][1] + direction[1]];
+
+      if (!inBounds(nextLocation)) {
+        return;
+      }
+
+      // console.log("hey", grid[0].length - 1, grid.length - 1);
+
+      if (nextLocation[0] === grid[0].length - 1 &&
+          nextLocation[1] === grid.length - 1) {
+        numWays ++;
+        return;
+      }
+
+      var newMemo = {};
+
+      for (var k in currentPosition[1]) {
+        newMemo[k] = true;
+      };
+
+      if (!newMemo[nextLocation]) {
+        newMemo[currentPosition[0]] = true;
+        queue.push([nextLocation, newMemo]);
+      }
+    });
+  }
+
+  return numWays;
+};
+
+// console.log(numberOfWays([[1, 1, 1,1,1,1],[1,1,1,1,1,1],[1, 1, 1,1,1,1],[1,1,1,1,1,1,1], [1,1,1,1,1,1], [1,1,1,1,1,1]]));
+
+function curriedSum(num){
+  var currentSum = 0;
+
+    function _curriedSum(nextNum) {
+      if (typeof nextNum === "undefined") {
+        return currentSum;
+      }
+
+      currentSum += nextNum;
+      return _curriedSum;
+    }
+
+    return _curriedSum(num);
+};
+
+console.log(curriedSum(3)(5)(-2)());

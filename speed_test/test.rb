@@ -234,66 +234,6 @@ def psubs(str)
   result
 end
 
-# p psubs("abcd")
-#
-# def quicksort (arr)
-#   #pivot , start_idx, end_idx
-#   queue = [[arr[0], 0, arr.length - 1]]
-#
-#   until queue.empty?
-#     first = queue.shift
-#
-#     #swap pivot
-#     halfway_idx = first[2] / 2
-#     arr[first[1]], arr[halfway_idx] = arr[halfway_idx], arr[first[1]]
-#     left_idx = first[1]
-#     right_idx = halfway_idx + 1
-#
-#     iterator = first[1]
-#
-#     while iterator < first[2]
-#       next if iterator == halfway_idx
-#
-#       debugger
-#       if arr[iterator] <= first[0]
-#           arr[iterator], arr[left_idx] = arr[left_idx], arr[iterator]
-#           left_idx += 1
-#       elsif arr[iterator] > first[0]
-#           arr[right_idx], arr[iterator] = arr[iterator] , arr[right_idx]
-#           right_idx += 1
-#       else
-#           iterator += 1
-#       end
-#     end
-#     #
-    # (first[1]..first[2]).each do |idx|
-    #   next if idx == halfway_idx
-    #   # debugger
-    #   if arr[idx] <= first[0]
-    #       arr[idx], arr[left_idx] = arr[left_idx], arr[idx]
-    #       left_idx += 1
-    #   elsif arr[idx] > first[0]
-    #       arr[right_idx], arr[idx] = arr[idx] , arr[right_idx]
-    #       right_idx += 1
-    #   else
-    #         iterator += 1
-    #   end
-    # end
-
-#     leftpiece = [arr[first[1]], first[1], halfway_idx - 1]
-#     rightpiece = [arr[halfway_idx + 1], halfway_idx + 1, first[2]]
-#
-#     debugger
-#
-#     queue << leftpiece unless leftpiece[2] - leftpiece[1] <= 1
-#     queue << rightpiece unless rightpiece[2] - rightpiece[1] <= 1
-#   end
-#
-#   arr
-# end
-
-# p quicksort([1,4,5,2,3])
-
 def insertionSort( ar)
   element = ar.last
 
@@ -313,4 +253,4 @@ def insertionSort( ar)
   ar
 end
 
-insertionSort([2,3,4,5,6,7,8,9,10,1])
+# insertionSort([2,3,4,5,6,7,8,9,10,1])
