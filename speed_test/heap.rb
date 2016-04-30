@@ -66,6 +66,68 @@ class MinHeap
   end
 end
 
+class Array
+  def heapsort
+    heapify!
+    unheapify!
+    reverse!
+  end
+
+  private
+
+  def heapify!
+    index = self.length - 1
+    while index > 0
+      current = index
+      if self[parent_idx(current)] > self[current]
+        swap!(parent_idx(current), current)
+        while need_to_heapify_down?(current)
+          smaller = children_idx(current, self.length).min_by { |idx| self[idx] }
+          swap!(smaller, current)
+          current = smaller
+        end
+      end
+      index -= 1
+    end
+  end
+
+  def unheapify!
+    heap_len = self.length - 1
+
+    while heap_len > 0
+      swap!(0, heap_len)
+      current = 0
+      while need_to_heapify_down?(current, heap_len)
+        smaller = children_idx(current, heap_len).min_by { |idx| self[idx] }
+        swap!(smaller, current)
+        current = smaller
+      end
+
+      heap_len -= 1
+    end
+
+    self
+  end
+
+  def children_idx(idx, heap_len)
+    [idx * 2 + 1, idx * 2 + 2].select { |idx| idx < heap_len }
+  end
+
+  def need_to_heapify_down?(index, length)
+    children_idx(index, length).any? { |idx| self[idx] < self[index] }
+  end
+
+  def parent_idx(idx)
+    idx.zero? ? 0 : (idx - 1) / 2
+  end
+
+  def swap!(idx1, idx2)
+    self[idx1], self[idx2] = self[idx2], self[idx1]
+  end
+end
+
+p [1,2,5,3,9,8].heapsort
+
 # heap = MinHeap.new([1,6,4,2,1,8])
 # 6.times do
 #   p heap.pop_min
