@@ -126,7 +126,7 @@ class Array
   end
 end
 
-p [1,2,5,3,9,8].heapsort
+# p [1,2,5,3,9,8].heapsort
 
 # heap = MinHeap.new([1,6,4,2,1,8])
 # 6.times do

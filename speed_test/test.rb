@@ -254,3 +254,42 @@ def insertionSort( ar)
 end
 
 # insertionSort([2,3,4,5,6,7,8,9,10,1])
+
+def topological_sort (adj_list)
+  in_degrees = in_degrees(adj_list)
+  sort = []
+  queue = []
+  in_degrees.each_with_index do |degree, idx|
+    if degree == 0
+      queue << idx
+      in_degrees[idx] = nil
+    end
+  end
+
+  until queue.empty?
+    vertex = queue.shift
+    sort << vertex
+
+    adj_list[vertex].each do |connection|
+      in_degrees[connection] -= 1 unless in_degrees[connection].nil?
+      if in_degrees[connection] == 0
+        queue << connection
+        in_degrees[connection] = nil
+      end
+    end
+  end
+
+  sort
+end
+
+def in_degrees(adj_list)
+  in_degree = Array.new(adj_list.count) { 0 }
+
+  adj_list.each do |connections|
+    connections.each { |c| in_degree[c] += 1 }
+  end
+
+  in_degree
+end
+
+p topological_sort([[1],[2, 3],[3], []])
