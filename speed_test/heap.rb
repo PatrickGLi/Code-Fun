@@ -61,6 +61,63 @@ class MaxHeap
   end
 end
 
-heap = MaxHeap.new ([1,3,2,1,7,8])
-# p heap
-6.times { puts heap.pop_max }
+# 6.times { puts heap.pop_max }
+
+class Array
+
+  def heap_sort
+    heapify!
+    downheap!
+  end
+
+  private
+
+  def heapify!
+    current_index = self.length - 1
+    while current_index > 0
+      start_index = current_index
+      swap!(start_index, parent_index(start_index)) if self[parent_index(start_index)] < self[start_index]
+      while need_to_heapify_down?(start_index, self.length)
+        greatest_index = children_index(start_index, self.length).max_by { |idx| self[idx] }
+        swap!(start_index, greatest_index)
+        start_index = greatest_index
+      end
+      current_index -= 1
+    end
+  end
+
+  def downheap!
+    partition = self.length - 1
+
+    while partition > 0
+      swap!(0, partition)
+      current_index = 0
+      while need_to_heapify_down?(current_index, partition)
+        greatest_index = children_index(current_index, self.length).max_by { |idx| self[idx] }
+        swap!(current_index, greatest_index)
+        current_index = greatest_index
+      end
+      partition -= 1
+    end
+
+    self
+  end
+
+  def swap!(index_1, index_2)
+    self[index_1], self[index_2] = self[index_2], self[index_1]
+  end
+
+  def need_to_heapify_down?(idx, heap_length)
+    children_index(idx, heap_length).any? { |index| self[index] > self[idx] }
+  end
+
+  def parent_index(idx)
+    idx.zero? ? 0: (idx - 1) / 2
+  end
+
+  def children_index(idx, heap_length)
+    [idx * 2 + 1, idx * 2 + 2].select { |idx| idx < heap_length }
+  end
+end
+
+# p [1,7,4,2,8,4,3,9].heap_sort
