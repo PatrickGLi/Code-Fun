@@ -292,4 +292,4 @@ def in_degrees(adj_list)
   in_degree
 end
 
-p topological_sort([[1],[2, 3],[3], []])
+# p topological_sort([[1],[2, 3],[3], []])
