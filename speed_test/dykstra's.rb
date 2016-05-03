@@ -154,9 +154,6 @@ def dykstras (starting_point, end_point)
                                        path: current_paths[shortest][:prev] }
 
     current_point = shortest
-
-    # debugger
-    # puts shortest_paths.values
   end
 
   shortest_paths
