@@ -588,4 +588,24 @@ function curriedSum(num){
     return _curriedSum(num);
 };
 
-console.log(curriedSum(3)(5)(-2)());
+// console.log(curriedSum(3)(5)(-2)());
+
+Array.prototype.insertionSort = function() {
+  for (var partition = 1; partition < this.length; partition++) {
+    var decrement = partition;
+    while (decrement > 0) {
+      if (this[decrement] < this[decrement - 1]) {
+        var smaller = this[decrement];
+        this[decrement] = this[decrement - 1];
+        this[decrement - 1] = smaller;
+        decrement --;
+      } else {
+        break;
+      }
+    }
+  }
+
+  return this;
+};
+
+// console.log([8,4,8,3,2,1,5].insertionSort());
