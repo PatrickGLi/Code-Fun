@@ -61,6 +61,68 @@ class MaxHeap
   end
 end
 
+class MinHeap
+  def initialize(values)
+    @heap = []
+
+    values.each { |val| insert(val) }
+  end
+
+  def insert(val)
+    @heap << val
+    heapify_up!
+    val
+  end
+
+  def pop_min
+    swap!(0, length - 1)
+    min = @heap.pop
+    heapify_down!
+    min
+  end
+
+  private
+
+  def heapify_up!
+    index = length - 1
+
+    while @heap[index] < parent_idx(index)
+      swap!(index, parent_idx(index))
+
+      index = parent_idx(index)
+    end
+  end
+
+  def heapify_down!
+    index = 0
+
+    while children_idx(index).any? { |idx| @heap[idx] < @heap[index] }
+      smaller = children_idx(index).min_by { |idx| @heap[idx] }
+
+      swap!(smaller, index)
+
+      index = smaller
+    end
+  end
+
+  def swap!(idx1, idx2)
+    @heap[idx1], @heap[idx2] = @heap[idx2], @heap[idx1]
+  end
+
+  def parent_idx(idx)
+    idx.zero? ? 0 : (idx - 1) / 2
+  end
+
+  def children_idx(idx)
+    [idx * 2 + 1, idx * 2 + 2].select { |idx| idx < length }
+  end
+
+  def length
+    @heap.length
+  end
+
+end
+
 # 6.times { puts heap.pop_max }
 
 class Array
