@@ -1,0 +1,6 @@
+BenchConstants = {
+  BENCHES_RECEIVED: "BENCHES_RECEIVED",
+  HIGHLIGHTED_BENCH_RECEIVED: "HIGHLIGHTED_BENCH_RECEIVED"
+}
+
+module.exports = BenchConstants;
