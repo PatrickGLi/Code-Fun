@@ -987,14 +987,24 @@ class QuickUnion
   def initialize(n)
     @index_array = Array.new(n)
     n.times { |idx| @index_array[idx] = idx }
+
+    @size = Array.new(n) { 1 }
   end
 
   def root(point)
+    start = point
     while @index_array[point] != point
       point = @index_array[point]
     end
 
-    point
+    root = point
+
+    while @index_array[start] != start
+      start = @index_array[start]
+      @index_array[start] = root
+    end
+
+    root
   end
 
   def connected?(start_point, end_point)
@@ -1004,7 +1014,13 @@ class QuickUnion
   def connect(start_point, end_point)
     return if root(start_point) == root(end_point)
 
-    @index_array[root(end_point)] = root(start_point)
+    if @size[root(start_point)] >= @size[root(end_point)]
+      @index_array[root(end_point)] = root(start_point)
+      @size[root(end_point)] += @size[root(start_point)]
+    else
+      @index_array[root(start_point)] = root(end_point)
+      @size[root(start_point)] += @size[root(end_point)]
+    end
   end
 end
 
@@ -1013,3 +1029,5 @@ quickunion = QuickUnion.new(10)
 quickunion.connect(1,2)
 quickunion.connect(2,3)
 # puts quickunion.connected?(1,3)
+
+#can add path compression and weighted union
