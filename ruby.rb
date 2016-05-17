@@ -1031,3 +1031,115 @@ quickunion.connect(2,3)
 # puts quickunion.connected?(1,3)
 
 #can add path compression and weighted union
+
+
+#Social network connectivity. Given a social network containing N members and a log file containing M timestamps at which times pairs of members formed friendships, design an algorithm to determine the earliest time at which all members are connected (i.e., every member is a friend of a friend of a friend ... of a friend). Assume that the log file is sorted by timestamp and that friendship is an equivalence relation. The running time of your algorithm should be MlogN or better and use extra space proportional to N.
+
+class SocialNetworkConnectivity
+  def self.start(n)
+    network = SocialNetworkConnectivity.new(n)
+    network.populate
+    network
+  end
+
+  def initialize(n)
+    @index_array = Array.new(n)
+    @completion_time = nil
+    @size = Array.new(n) { 1 }
+  end
+
+  def self.calculate(n, file)
+    network = start(n)
+    File.readlines(file).each do |line|
+      network.union(line)
+      if network.connected?
+        return winner
+      end
+    end
+
+    nil
+  end
+
+  private
+
+  def root(item)
+    start = item
+    while @index_array[item] != item
+      item = @index_array[item]
+    end
+
+    root = item
+
+    while @index_array[start] != start
+      start = @index_array[start]
+      @index_array[start] = root
+    end
+
+    root
+  end
+
+  def union(line)
+    first, second, time = line[0], line[1], line[3]
+
+    return if root(first) == root(second)
+
+    if @size[root(first)] >= @size[root(second)]
+      @index_array[root(second)] = root(first)
+      @size[root(first)] += @size[root(second)]
+    else
+      @index_array[root(first)] = root(second)
+      @size[root(second)] += @size[root(first)]
+    end
+
+    @completion_time = line[3] if connected?
+  end
+
+  def populate
+    @index_array.each_index { |idx| @index_array[idx] = idx }
+  end
+
+  def size
+    @index_array.length
+  end
+
+  def connected?
+    @size.any? { |el| el == size}
+  end
+end
+
+# SocialNetworkConnectivity.calculate(10, file)
+
+# Successor with delete. Given a set of N integers S={0,1,...,N−1} and a sequence of requests of the following form:
+# Remove x from S
+# Find the successor of x: the smallest y in S such that y≥x.
+# design a data type so that all operations (except construction) should take logarithmic time or better.
+
+class Successor
+  def initialize(n)
+    @index_array = Array.new(n)
+
+    @index_array.each_index { |idx| @index_array[idx] = idx }
+  end
+
+  def successor(element)
+    start = element
+    while @index_array[element] != element
+      element = @index_array[element]
+    end
+
+    successor = element
+
+    while @index_array[start] != start
+      start = @index_array[start]
+      @index_array[start] = successor
+    end
+
+    successor
+  end
+
+  def remove(element)
+    return if root(element) != element
+
+    @index_array[element] = successor(@index_array[element + 1])
+  end
+end
