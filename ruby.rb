@@ -949,6 +949,36 @@ def in_bounds?(matrix, coord)
   coord[1].between?(0, matrix.count - 1)
 end
 
-print_diagonals([[0,1,2],
-                 [3,4,5],
-                 [6,7,8]])
+# print_diagonals([[0,1,2],
+#                  [3,4,5],
+#                  [6,7,8]])
+#dynamic connectivity
+
+class QuickFind
+  attr_reader :index_array
+
+  def initialize(n)
+    @index_array = Array.new(n)
+    n.times { |idx| index_array[idx] = idx }
+  end
+
+  def connected?(start_point, end_point)
+    @index_array[start_point] == @index_array[end_point]
+  end
+
+  def connect(first, second)
+    return if @index_array[first] == @index_array[second]
+    value = @index_array[first]
+    new_value = @index_array[second]
+    @index_array.each_index { |idx| @index_array[idx] = new_value if @index_array[idx] == value }
+  end
+end
+
+quickfind = QuickFind.new(10)
+
+# p quickfind.index_array
+quickfind.connect(1,2)
+quickfind.connect(2,3)
+
+# p quickfind.connected?(1,3)
+# p quickfind.index_array

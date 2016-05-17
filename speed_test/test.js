@@ -609,3 +609,149 @@ Array.prototype.insertionSort = function() {
 };
 
 // console.log([8,4,8,3,2,1,5].insertionSort());
+
+function greatestProduct(num, adjacentDigits) {
+  var greatestProduct = 0;
+
+  var numString = num.toString();
+  console.log(numString);
+  for (var i = 0; i < numString.length - adjacentDigits - 1; i++) {
+    var currentProduct = 1;
+    for (var j = i; j < i + adjacentDigits; j++) {
+      currentProduct = currentProduct * parseInt(numString[j]);
+    }
+
+    if (currentProduct > greatestProduct) {
+      greatestProduct = currentProduct;
+    }
+  }
+
+  return greatestProduct;
+}
+
+// console.log(greatestProduct(73167176531335, 4));
+// sum the first n fibonacci numbers
+
+function sumOfFibonacci(num) {
+  var firstFib = 1;
+  var secondFib = 1;
+  var sum = firstFib + secondFib;
+  for (var i = 0; i < num - 2; i++) {
+    var tempFib = secondFib;
+    secondFib = firstFib + secondFib;
+    firstFib = tempFib;
+    sum += secondFib;
+  }
+
+  return sum;
+};
+
+// console.log(sumOfFibonacci(4));
+
+function recursiveFib(num) {
+  if (num === 2) {
+    return [1, 1]
+  }
+
+  var previousFibNumbers = recursiveFib(num - 1)
+
+  var nextNumber = previousFibNumbers[previousFibNumbers.length - 1] + previousFibNumbers[previousFibNumbers.length - 2]
+
+  return previousFibNumbers.concat([nextNumber]);
+}
+
+// console.log(recursiveFib(5));
+
+Array.prototype.quickSort = function() {
+  if (this.length <= 0) {
+    return [];
+  }
+
+  var pivot = this.shift();
+
+  var smallerArray = [],
+      largerArray = [];
+  for (var i = 0; i < this.length; i++) {
+    if (this[i] >= pivot) {
+      largerArray.push(this[i]);
+    } else {
+      smallerArray.push(this[i]);
+    }
+  }
+
+
+  return smallerArray.quickSort().concat([pivot]).concat(largerArray.quickSort());
+};
+
+// console.log([5,3,2,6,7,3,8,9,4,2,6,8,5,5].quickSort());
+
+Array.prototype.inPlaceQuicksort = function () {
+  var queue = [{ start: 0, end: this.length - 1}];
+
+  while (queue.length > 0) {
+    var currentSort = queue.shift();
+    var pivot = this[currentSort.start];
+
+    var leftIndex = currentSort.start + 1;
+    var rightIndex = currentSort.end;
+
+    while (leftIndex < rightIndex) {
+      var done = false;
+      while (this[leftIndex] < pivot) {
+        leftIndex++;
+
+        if (leftIndex > rightIndex) {
+          done = true;
+        }
+      }
+
+      while (this[rightIndex] > pivot) {
+        rightIndex--;
+
+        if (leftIndex > rightIndex) {
+          done = true;
+        }
+      }
+
+      if (done) {
+        break;
+      }
+
+      var temp = this[leftIndex];
+      this[leftIndex] = this[rightIndex];
+      this[rightIndex] = temp;
+
+      leftIndex++;
+      rightIndex--;
+    }
+
+    var temp = pivot;
+    this[currentSort.start] = this[rightIndex];
+    this[rightIndex] = pivot;
+
+    var leftSide = { start: currentSort.start, end: rightIndex - 1 }
+    var rightSide = { start: rightIndex + 1, end: currentSort.end }
+
+    if (leftSide.end - leftSide.start >= 1) {
+      queue.push(leftSide);
+    }
+
+    if (rightSide.end - rightSide.start >= 1) {
+      queue.push(rightSide);
+    }
+  }
+
+  return this;
+};
+
+// console.log([3.5,2,4,5,8,6,3,2].inPlaceQuicksort());
+
+function recursiveSum(num) {
+  if (num === 0) {
+    return 0;
+  }
+
+  return num + recursiveSum(num - 1);
+}
+
+// console.log(recursiveSum(4));
