@@ -959,7 +959,7 @@ class QuickFind
 
   def initialize(n)
     @index_array = Array.new(n)
-    n.times { |idx| index_array[idx] = idx }
+    n.times { |idx| @index_array[idx] = idx }
   end
 
   def connected?(start_point, end_point)
@@ -982,3 +982,34 @@ quickfind.connect(2,3)
 
 # p quickfind.connected?(1,3)
 # p quickfind.index_array
+
+class QuickUnion
+  def initialize(n)
+    @index_array = Array.new(n)
+    n.times { |idx| @index_array[idx] = idx }
+  end
+
+  def root(point)
+    while @index_array[point] != point
+      point = @index_array[point]
+    end
+
+    point
+  end
+
+  def connected?(start_point, end_point)
+    root(start_point) == root(end_point)
+  end
+
+  def connect(start_point, end_point)
+    return if root(start_point) == root(end_point)
+
+    @index_array[root(end_point)] = root(start_point)
+  end
+end
+
+quickunion = QuickUnion.new(10)
+
+quickunion.connect(1,2)
+quickunion.connect(2,3)
+# puts quickunion.connected?(1,3)
