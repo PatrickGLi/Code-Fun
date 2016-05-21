@@ -686,65 +686,33 @@ Array.prototype.quickSort = function() {
 // console.log([5,3,2,6,7,3,8,9,4,2,6,8,5,5].quickSort());
 
 Array.prototype.inPlaceQuicksort = function () {
-  var queue = [{ start: 0, end: this.length - 1}];
+
+  var queue = [{ start: 0, length: this.length }];
+
+  // console.log(queue);
 
   while (queue.length > 0) {
     var currentSort = queue.shift();
     var pivot = this[currentSort.start];
 
-    var leftIndex = currentSort.start + 1;
-    var rightIndex = currentSort.end;
+    var startIndex = currentSort.start + 1;
 
-    while (leftIndex < rightIndex) {
-      var done = false;
-      while (this[leftIndex] < pivot) {
-        leftIndex++;
+    while (startIndex < currentSort.start + currentSort.length) {
+      if (this[startIndex] < pivot) {
 
-        if (leftIndex > rightIndex) {
-          done = true;
-        }
       }
-
-      while (this[rightIndex] > pivot) {
-        rightIndex--;
-
-        if (leftIndex > rightIndex) {
-          done = true;
-        }
-      }
-
-      if (done) {
-        break;
-      }
-
-      var temp = this[leftIndex];
-      this[leftIndex] = this[rightIndex];
-      this[rightIndex] = temp;
-
-      leftIndex++;
-      rightIndex--;
     }
 
-    var temp = pivot;
-    this[currentSort.start] = this[rightIndex];
-    this[rightIndex] = pivot;
 
-    var leftSide = { start: currentSort.start, end: rightIndex - 1 }
-    var rightSide = { start: rightIndex + 1, end: currentSort.end }
-
-    if (leftSide.end - leftSide.start >= 1) {
-      queue.push(leftSide);
-    }
-
-    if (rightSide.end - rightSide.start >= 1) {
-      queue.push(rightSide);
-    }
+    console.log(this);
   }
 
-  return this;
 };
 
-// console.log([3.5,2,4,5,8,6,3,2].inPlaceQuicksort());
+[11,2,10,12,3, 9].inPlaceQuicksort();
+[12, 2, 10, 11, 3, 9]
+[3,2,10,11,12,9]
+
 
 function recursiveSum(num) {
   if (num === 0) {

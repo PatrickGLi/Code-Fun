@@ -293,3 +293,15 @@ def in_degrees(adj_list)
 end
 
 # p topological_sort([[1],[2, 3],[3], []])
+
+def subsets(arr)
+ return [[]] if arr.empty?
+
+ previous_subsets = subsets(arr.drop(1))
+
+ previous_subsets.concat(previous_subsets.map do |subset|
+   subset + [arr.first]
+ end)
+end
+
+p subsets([1,2,3,4])
